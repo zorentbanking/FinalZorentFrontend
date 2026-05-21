@@ -1,112 +1,152 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  ReactiveFormsModule
-} from '@angular/forms';
-import {
-  HttpClient,
-  HttpClientModule
-} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule, ActivatedRoute } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
-  selector: 'app-forgot-password',
+  selector: 'app-change-password',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule,
+    FormsModule,
+    RouterModule,
     HttpClientModule
   ],
-  templateUrl: './forgot-password.html',
-  styleUrls: ['./forgot-password.css']
+  templateUrl: './change-password.html',
+  styleUrls: ['./change-password.css']
 })
-export class ForgotPasswordComponent {
+export class ChangePasswordComponent {
 
-  forgotPasswordForm!: FormGroup;
+  newPassword = '';
+  confirmPassword = '';
 
   successMessage = '';
-
   errorMessage = '';
+  showPassword: boolean = false;
+  tokenInvalid: boolean = false;
 
-  loading = false;
+  token = '';
 
-  apiUrl =
-    'https://localhost:7085/api/auth/forgot-password';
+  apiUrl = 'https://localhost:7085/api/auth/reset-password';
 
   constructor(
-    private fb: FormBuilder,
-    private http: HttpClient
+    private http: HttpClient,
+    private route: ActivatedRoute,
+    private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
 
-    this.forgotPasswordForm =
-      this.fb.group({
+    // GET TOKEN FROM URL
+    this.route.queryParams.subscribe(params => {
 
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.email
-          ]
-        ]
+      this.token = params['token'];
 
-      });
+      // TOKEN MISSING
+      if (!this.token) {
 
+        this.tokenInvalid = true;
+
+        this.errorMessage =
+          'Reset link has expired or already been used';
+
+        return;
+      }
+
+      // VALIDATE TOKEN
+      this.authService
+        .validateResetToken(this.token)
+        .subscribe({
+
+          next: () => {
+
+            // TOKEN VALID
+          },
+
+          error: (err: any) => {
+
+            this.tokenInvalid = true;
+
+            this.errorMessage =
+              err.error?.message ||
+              'Reset link has expired or already been used';
+          }
+        });
+
+    });
   }
 
-  onSubmit(): void {
+  isPasswordValid(password: string): boolean {
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (this.forgotPasswordForm.invalid) {
+    return passwordRegex.test(password);
+  }
 
-      this.forgotPasswordForm.markAllAsTouched();
+  onChangePassword(): void {
+
+
+    if (!this.isPasswordValid(this.newPassword)) {
+
+      this.errorMessage =
+        'Password does not meet security requirements';
+
+      this.successMessage = '';
 
       return;
-
     }
 
-    this.loading = true;
+    if (this.newPassword !== this.confirmPassword) {
 
+      this.errorMessage = 'Passwords do not match';
+
+      this.successMessage = '';
+
+      return;
+    }
+
+    // API body
     const body = {
-
-      email:
-        this.forgotPasswordForm.value.email
-
+      token: this.token,
+      newPassword: this.newPassword,
+      confirmPassword: this.confirmPassword
     };
 
-    this.http.post<any>(
-      this.apiUrl,
-      body
-    ).subscribe({
+    // Call backend
+    this.http.post<any>(this.apiUrl, body).subscribe({
 
       next: (response) => {
 
         this.successMessage =
-          response.message || 'Reset link sent';
+          response.message || 'Password reset successful';
 
         this.errorMessage = '';
 
-        this.loading = false;
+        this.newPassword = '';
 
-        this.forgotPasswordForm.reset();
+        this.confirmPassword = '';
+
+        setTimeout(() => {
+          this.router.navigate(['/login']);
+        }, 2000);
+
+        // Redirect login
 
       },
 
       error: (error) => {
 
+        console.log(error);
+
         this.errorMessage =
-          error.error?.message ||
-          'Password reset failed';
+          error.error?.message || 'Password reset failed';
 
         this.successMessage = '';
-
-
       }
 
     });
-
   }
-
 }

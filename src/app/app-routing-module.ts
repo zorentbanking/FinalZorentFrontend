@@ -10,7 +10,7 @@ import { TransferComponent } from './features/transfers/transfer/transfer';
 import { TransactionHistoryComponent } from './features/transactions/transaction-history/transaction-history';
 import { DepositMoney } from './features/accounts/deposit-money/deposit-money';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
-//import { ChangePasswordComponent } from './features/auth/change-password/change-password';
+import { ChangePasswordComponent } from './features/auth/change-password/change-password';
 import { TransferSuccessComponent } from './features/transfers/transfer-success/transfer-success';
 import { StatementComponent } from './features/transactions/statement/statement';
 import { ProfileSettingsComponent } from './features/accounts/profile-settings/profile-settings';
@@ -30,7 +30,7 @@ const routes: Routes = [
   // PUBLIC ROUTES
   { path: 'forgot-password', component: ForgotPasswordComponent },
 
-  //{ path: 'reset-password', component: ChangePasswordComponent },
+  { path: 'reset-password', component: ChangePasswordComponent },
 
   // PROTECTED ROUTES
   {
