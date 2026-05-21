@@ -9,6 +9,7 @@ import {
 
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',

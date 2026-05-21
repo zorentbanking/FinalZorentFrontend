@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+
 import {
   FormBuilder,
   FormGroup,
@@ -7,6 +8,7 @@ import {
 } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
+
 import { RouterModule } from '@angular/router';
 
 import {
@@ -16,6 +18,7 @@ import {
 
 @Component({
   selector: 'app-forgot-password',
+
   standalone: true,
 
   imports: [
@@ -26,16 +29,18 @@ import {
   ],
 
   templateUrl: './forgot-password.html',
+
   styleUrls: ['./forgot-password.css']
 })
 
 export class ForgotPasswordComponent {
 
-  forgotPasswordForm: FormGroup;
+  forgotPasswordForm!: FormGroup;
 
   loading = false;
 
   successMessage = '';
+
   errorMessage = '';
 
   apiUrl =
@@ -57,6 +62,7 @@ export class ForgotPasswordComponent {
       ]
 
     });
+
   }
 
   onSubmit(): void {
@@ -66,42 +72,51 @@ export class ForgotPasswordComponent {
       this.forgotPasswordForm.markAllAsTouched();
 
       return;
+
     }
 
     this.loading = true;
 
     const body = {
-      email: this.forgotPasswordForm.value.email
+
+      email:
+        this.forgotPasswordForm.value.email
+
     };
 
-    this.http.post<any>(this.apiUrl, body).subscribe({
+    this.http.post<any>(
+      this.apiUrl,
+      body
+    ).subscribe({
 
       next: (response) => {
 
         this.loading = false;
 
         this.successMessage =
-          response.message || 'Reset link sent to your email';
+          response.message ||
+          'Reset link sent to your email';
 
         this.errorMessage = '';
 
         this.forgotPasswordForm.reset();
+
       },
 
       error: (error) => {
 
         this.loading = false;
 
-        console.log(error);
-
         this.errorMessage =
-          error.error?.message || 'Something went wrong';
+          error.error?.message ||
+          'Something went wrong';
 
         this.successMessage = '';
+
       }
 
     });
+
   }
+
 }
-
-
