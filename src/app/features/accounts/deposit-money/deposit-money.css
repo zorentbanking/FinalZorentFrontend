@@ -15,7 +15,7 @@
    NAVBAR
 ========================= */
 
-header-border {
+.header-border {
   border-bottom: 1px solid #e1e4e7;}
 
 /* --- Glowing ZORENT Logo --- */
@@ -144,6 +144,74 @@ header-border {
 
   .logout-item:hover {
     background: #fff5f5;
+  }
+.profile-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #0d6efd;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  margin: auto;
+}
+
+.user-details-header {
+  padding: 15px;
+  min-width: 280px;
+}
+.zorent-logo-container {
+  width: 42px;
+  height: 42px;
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.zorent-main-logo {
+  max-width: 100%;
+  height: auto;
+}
+
+.profile-item {
+  display: block;
+  padding: 15px 20px;
+  color: #212529;
+  text-decoration: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+  .profile-item:hover {
+    background: #f5f9ff;
+    color: #0d6efd;
+  }
+
+.logout-icon-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #ef4444;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  transition: 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+  .logout-icon-btn:hover {
+    background: #dc2626;
+    transform: scale(1.08);
   }
 
 /* =========================
@@ -515,55 +583,5 @@ header-border {
   transition: all 0.3s ease;
 }
 
-.profile-circle {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: #0d6efd;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 24px;
-  font-weight: bold;
-  margin: auto;
-}
 
-.user-details-header {
-  padding: 15px;
-  min-width: 280px;
-}
-.zorent-logo-container {
-  width: 42px;
-  height: 42px;
-  background: #ffffff;
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 5px;
-}
-
-.zorent-main-logo {
-  max-width: 100%;
-  height: auto;
-}
-.logout-icon-btn {
-  width: 42px;
-  height: 42px;
-  border: none;
-  border-radius: 50%;
-  background: #ef4444;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  transition: 0.3s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-}
-
-  .logout-icon-btn:hover {
-    background: #dc2626;
-    transform: scale(1.08);
-  }
+  
