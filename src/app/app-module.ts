@@ -26,7 +26,6 @@ import { AccountSuccessComponent }
 
   import { CloseFd } from './features/Close/close-fd';
 import { FooterComponent } from './footer/footer';
-
 @NgModule({
   declarations: [
     App,
@@ -43,7 +42,6 @@ import { FooterComponent } from './footer/footer';
     ClosedAccountsComponent,
     CloseFd,
     FooterComponent
-    
    
    
   ],
@@ -52,9 +50,12 @@ import { FooterComponent } from './footer/footer';
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    FormsModule, HttpClientModule],
+    FormsModule,
+    HttpClientModule,
+   
+  ],
 
-  providers: [HttpClientModule, {
+  providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
