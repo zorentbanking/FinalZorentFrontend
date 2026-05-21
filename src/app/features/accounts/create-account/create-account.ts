@@ -28,6 +28,10 @@ currencySymbol = APP_CONSTANTS.currencySymbol;
 
   interestRate: number = 0;
 
+  selectedInstallmentDay: number | null = null;
+
+  showInstallmentPicker=false;
+
   maturityAmount: number = 0;
 
   maturityDate: Date | null = null;
@@ -47,6 +51,10 @@ currencySymbol = APP_CONSTANTS.currencySymbol;
   minInstallmentDate: string = '';
 
   maxInstallmentDate: string = '';
+
+  installmentDays:number[]=[];
+
+  formattedInstallmentDate = '';
 
 
   constructor(
@@ -119,6 +127,31 @@ currencySymbol = APP_CONSTANTS.currencySymbol;
 
     this.router.navigate(['/login']);
   }
+
+  selectInstallmentDay(day: number): void {
+
+  this.selectedInstallmentDay = day;
+  const today = new Date();
+
+const year = today.getFullYear();
+
+const month =
+  String(today.getMonth() + 1)
+    .padStart(2, '0');
+
+const formattedDate =
+  `${year}-${month}-${String(day).padStart(2, '0')}`;
+
+this.accountForm.patchValue({
+  installmentDate: formattedDate
+});
+
+    this.formatInstallmentDate(day);
+
+
+  this.showInstallmentPicker = false;
+
+}
 
   // ACCOUNT RULES
   updateAccountRules(type: string): void {
@@ -208,14 +241,19 @@ currencySymbol = APP_CONSTANTS.currencySymbol;
         today.toISOString().split('T')[0];
 
       // Last day of current month
-      const lastDayOfMonth = new Date(
-        today.getFullYear(),
-        today.getMonth() + 1,
-        0
-      );
+     const next30 = new Date();
 
-      this.maxInstallmentDate =
-        lastDayOfMonth.toISOString().split('T')[0];
+next30.setDate(
+  today.getDate() + 30
+);
+
+this.installmentDays = [];
+
+for (let i = 1; i <= 27; i++) {
+
+  this.installmentDays.push(i);
+
+}
 
       if (
         !this.accountForm.contains(
@@ -357,6 +395,41 @@ currencySymbol = APP_CONSTANTS.currencySymbol;
         );
     }
   }
+
+  formatInstallmentDate(day: number): void {
+
+  let suffix = 'th';
+
+  if (day === 1 || day === 21) {
+    suffix = 'st';
+  }
+
+  else if (day === 2 || day === 22) {
+    suffix = 'nd';
+  }
+
+  else if (day === 3 || day === 23) {
+    suffix = 'rd';
+  }
+
+  this.formattedInstallmentDate =
+    `${day}${suffix}`;
+
+}
+
+// isInvalidDate(dateString: string): boolean {
+
+//   const date = new Date(dateString);
+
+//   const day = date.getDate();
+
+//   return (
+//     day === 28 ||
+//     day === 29 ||
+//     day === 30 ||
+//     day === 31
+//   );
+// }
 
   // SUBMIT
   onSubmit(): void {

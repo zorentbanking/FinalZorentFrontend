@@ -1,5 +1,5 @@
 
-
+<div class="zorent-auth-wrapper">
 <div class="dashboard-wrapper">
  
     <div class="welcome-toast shadow-lg"
@@ -30,7 +30,7 @@
 
 
 
-    <div class="container py-4">
+    <div class="container">
       <div class="d-flex justify-content-between align-items-center mb-5 pb-3 header-border zorent-sticky-header">
         <nav class="d-flex gap-4 align-items-center">
           <a routerLink="/dashboard"
@@ -241,9 +241,35 @@
       <!-- ACCOUNT CARDS -->
       <div class="row g-4">
 
-        <div class="col-md-6"
-             *ngFor="let acc of filteredAccounts">
+        <div class="row g-4">
 
+  <!-- NO FILTERED ACCOUNTS -->
+  <div
+    *ngIf="filteredAccounts.length === 0"
+    class="col-12">
+
+    <div class="empty-filter-state">
+
+      <div class="empty-icon">
+        <i class="bi bi-wallet2"></i>
+      </div>
+
+      <h4>
+        No Accounts Found
+      </h4>
+
+      <p>
+        No {{ selectedAccountType }}
+        accounts are available.
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- ACCOUNT CARDS -->
+  <div class="col-md-6"
+       *ngFor="let acc of filteredAccounts">
           <!-- FLIP CONTAINER -->
           <div class="flip-card-container">
 
@@ -400,7 +426,7 @@
 
                       <div class="col-12">
 
-                        <button class="  btn btn-warning text-dark  w-100 rounded-pill"
+                        <button class="  btn btn-danger text-light  w-100 rounded-pill"
                                 [routerLink]="['/close-fd']"
                                 [disabled]="acc.status === 'Closed'"
                                 [queryParams]="{
@@ -408,7 +434,7 @@
 }"
                                 (click)="$event.stopPropagation()">
 
-                          Withdraw
+                          Close Account
 
                         </button>
 
@@ -437,7 +463,7 @@
 
                       <div class="col-6">
 
-                        <button class="btn btn-warning text-dark w-100 rounded-pill"
+                        <button class="btn btn-danger text-light w-100 rounded-pill"
                                 [routerLink]="['/close-fd']"
                                 [disabled]="acc.status === 'Closed'"
                                 [queryParams]="{
@@ -445,7 +471,7 @@
             }"
                                 (click)="$event.stopPropagation()">
 
-                          Withdraw
+                          Close Account
 
                         </button>
 
@@ -540,7 +566,7 @@
 
                         <!-- DEPOSIT -->
                         <div class="col-6">
-                          <button class="btn btn-success w-100 rounded-pill"
+                          <button class="btn btn-success w-100 rounded-pill "
                                   [routerLink]="['/deposit-money']"
                                   [state]="{
           accountNumber: acc.accountNumber
@@ -554,16 +580,21 @@
                         </div>
 
                         <!-- CLOSE ACCOUNT -->
-                        <div class="col-6">
+                                  <div class="col-6">
 
-                          <button class="btn btn-danger w-100 rounded-pill"
-                                  (click)="$event.stopPropagation()">
+            <button class="btn btn-danger text-light w-100 rounded-pill close-btn"
+                    [routerLink]="['/close-fd']"
+                    [disabled]="isDisabled(acc)"
+                    [queryParams]="{
+  accountNumber: acc.accountNumber
+}"
+                    (click)="$event.stopPropagation()">
 
-                            Close Account
+              Close Account
 
-                          </button>
+            </button>
 
-                        </div>
+          </div>
 
                       </div>
 
@@ -574,22 +605,7 @@
 
                         <div class="row g-2 mb-2">
 
-                          <div class="col-6">
-
-                            <button class="btn btn-warning text-dark w-100 rounded-pill"
-                                    [disabled]="acc.status === 'Closed'"
-                                    [routerLink]="['/close-fd']"
-                                    [queryParams]="{
-          accountNumber: acc.accountNumber
-        }"
-                                    (click)="$event.stopPropagation()">
-
-                              Withdraw
-
-                            
-                            </button>
-
-                          </div>
+                          
 
                           <div class="col-6">
 
@@ -606,6 +622,23 @@
                             </button>
 
                           </div>
+
+                                    <div class="col-6">
+
+            <button class="btn btn-danger text-light w-100 rounded-pill close-btn"
+                    [routerLink]="['/close-fd']"
+                    [disabled]="isDisabled(acc)"
+                    [queryParams]="{
+  accountNumber: acc.accountNumber
+}"
+                    (click)="$event.stopPropagation()">
+
+              Close Account
+
+            </button>
+
+          </div>
+
 
                         </div>
 
@@ -615,44 +648,21 @@
 
                         </div>
 
-                        <button class="btn btn-danger w-100 rounded-pill"
-                                (click)="$event.stopPropagation()">
-
-                          Close Account
-
-                        </button>
+                        
 
                       </div>
 
                       <!-- FD BACK -->
-                      <div *ngIf="acc.accountType === 'Fixed Deposit'">
-
-                        <button class="btn btn-danger w-100 rounded-pill"
-                                (click)="$event.stopPropagation()">
-
-                          Close Account
-
-                        </button>
-
-                      </div>
+                      
 
                       <!-- RD BACK -->
                       <div *ngIf="acc.accountType === 'Recurring Deposit'">
 
                         <div class="row g-2">
 
-                          <div class="col-6">
+                          
 
-                            <button class="btn btn-danger w-100 rounded-pill"
-                                    (click)="$event.stopPropagation()">
-
-                              Close Account
-
-                            </button>
-
-                          </div>
-
-                          <div class="col-6">
+                          <div class="col-12">
 
                             <button class="btn btn-success w-100 rounded-pill"
                                     [routerLink]="['/deposit-money']"
@@ -666,6 +676,8 @@
                             </button>
 
                           </div>
+
+                          
 
                         </div>
 
@@ -685,4 +697,5 @@
 
       </div>
     </div>
+</div>
 </div>

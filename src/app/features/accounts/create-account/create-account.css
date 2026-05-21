@@ -159,6 +159,7 @@
     background-size: 20px;
     background-repeat: no-repeat;
     background-position: right 12px center;
+    
   }
 
   .custom-datepicker:focus {
@@ -303,7 +304,7 @@
 
 
 input[readonly].zorent-input {
-  background-color: #f8fafc !important;
+  background-color: #ffffff !important;
   border-style: dashed !important;
   color: #64748b !important;
 }
@@ -517,4 +518,67 @@ input[readonly].zorent-input {
   padding-bottom: 0;
 
   transition: all 0.3s ease;
+}
+
+.installment-calendar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 8px;
+  margin-top: 10px;
+  justify-items: center;
+}
+
+.calendar-date {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 2px solid #dfe6e9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  background: #ffffff;
+}
+
+.calendar-date:hover {
+  border-color: #00b894;
+  color: #00b894;
+  transform: scale(1.05);
+}
+
+.calendar-date.selected {
+  background: #00b894;
+  color: white;
+  border-color: #00b894;
+  box-shadow: 0 6px 16px rgba(0, 184, 148, 0.3);
+}
+
+.installment-popup {
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: 0 12px 35px rgba(0,0,0,0.12);
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
 }
